@@ -81,10 +81,10 @@ let playerBoard = generatePlayerBoard(3, 3);
 let bombBoard = generateBombBoard(3, 3, 5);
 
 console.log('Player Board: ');
-console.log(printBoard(playerBoard));
+printBoard(playerBoard);
 console.log('Bomb Board: ');
-console.log(printBoard(bombBoard));
+printBoard(bombBoard);
 
 flipTile(playerBoard, bombBoard, 1, 2);
 console.log('Updated Player Board: ');
-console.log(printBoard(playerBoard));
+printBoard(playerBoard);
