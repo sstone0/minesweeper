@@ -9,7 +9,7 @@ class Game {
     if (this._board.playerBoard[rowIndex][columnIndex] === 'B') {
       console.log('The game is over!');
       this._board.print();
-    } else if (this._numberOfTiles !== this._numberOfBombs) {
+    } else if (this._board.hasSafeTiles === false) {
       console.log('You have won!');
     } else {
       console.log('Current Board: ');
@@ -19,7 +19,7 @@ class Game {
 }
 
 
-////////   Start of Board Class -- Makes the boards and board functionality   ////////
+////   Start of Board Class -- Makes the boards and board functionality   ////
 class Board {
   constructor(numberOfRows, numberOfColumns, numberOfBombs) {
     this._numberOfBombs = numberOfBombs;
@@ -32,6 +32,10 @@ class Board {
     return this._playerBoard;
   }
 
+  get bombBoard() {
+    return this._bombBoard;
+  }
+
   flipTile(rowIndex, columnIndex) {
     if (this._playerBoard[rowIndex][columnIndex] !== ' ') {
       console.log('This tile has already been flipped!');
@@ -40,7 +44,7 @@ class Board {
       this._playerBoard[rowIndex][columnIndex] === 'B';
     } else {
       this._playerBoard[rowIndex][columnIndex] = this.getNumberOfNeighborBombs(rowIndex, columnIndex);
-    };
+    }
     this._numberOfTiles--;
   }
 
@@ -58,26 +62,27 @@ class Board {
     const numberOfRows = this._bombBoard.length;
     const numberOfColumns = this._bombBoard[0].length;
     let numberOfBombs = 0;
+
     neighborOffSets.forEach(offset => {
-      const neighborRowIndex = rowIndex + offset[0];
-      const neighborColumnIndex = columnIndex + offset[1];
-      if (neighborRowIndex >= 0 && neighborRowIndex <= numberOfRows && neighborColumnIndex >= 0 && neighborColumnIndex <= numberOfColumns) {
+      const neighborRowIndex = [rowIndex + offset[0]];
+      const neighborColumnIndex = [columnIndex + offset[1]];
+      if (neighborRowIndex >= 0 && neighborRowIndex < numberOfRows && neighborColumnIndex >= 0 && neighborColumnIndex < numberOfColumns) {
         if (this._bombBoard[neighborRowIndex][neighborColumnIndex] === 'B') {
-          numberOfBombs++;
+          return numberOfBombs++;
         }
       }
     });
     return numberOfBombs;
   }
 
-  // Checks if there are any safe tiles (tiles with no bombs) //
+  // Function that checks if there are any safe tiles (tiles with no bombs) //
   hasSafeTiles() {
     return this._numberOfTiles !== this._numberOfBombs;
   }
 
   // Function to print a board wit lines between columns //
   print() {
-    console.log(board.map(row => row.join(' | ')).join('\n'));
+    console.log(this._playerBoard.map(row => row.join(' | ')).join('\n'));
   }
 
   // Method to generate the player's board //
@@ -146,4 +151,4 @@ Sets the game board sizes and how many bombs are placed.
 Allows player to set the move they want to play (setting the flipped tile)
 */
 const g = new Game(3, 3, 3);
-g.playMove(0, 0);
+g.playMove(1, 0);
