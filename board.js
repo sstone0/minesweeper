@@ -1,26 +1,4 @@
-////////   Start of Game Class -- This will keep track of each game   ////////
-class Game {
-  constructor(numberOfRows, numberOfColumns, numberOfBombs) {
-    this._board = new Board(numberOfRows, numberOfColumns, numberOfBombs);
-  }
-
-  playMove(rowIndex, columnIndex) {
-    this._board.flipTile(rowIndex, columnIndex);
-    if (this._board.playerBoard[rowIndex][columnIndex] === 'B') {
-      console.log('The game is over!');
-      this._board.print();
-    } else if (this._board.hasSafeTiles === false) {
-      console.log('You have won!');
-    } else {
-      console.log('Current Board: ');
-      this._board.print();
-    }
-  }
-}
-
-
-////   Start of Board Class -- Makes the boards and board functionality   ////
-class Board {
+export class Board {
   constructor(numberOfRows, numberOfColumns, numberOfBombs) {
     this._numberOfBombs = numberOfBombs;
     this._numberOfTiles = numberOfRows * numberOfColumns;
